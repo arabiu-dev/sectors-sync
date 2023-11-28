@@ -22,7 +22,7 @@ func main() {
 	routes.Auth(router)
 
 	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{"message": "Welcome to the frenzy api documentation"})
+		c.JSON(200, gin.H{"message": "Welcome to the sectors-sync server"})
 	})
 
 	router.Run(":" + os.Getenv("PORT"))
