@@ -8,14 +8,14 @@ import (
 	"sectors-sync/seeds"
 
 	"github.com/joho/godotenv"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 func Init() *gorm.DB {
 	// Replace 'mysql' with your MySQL driver details
 	godotenv.Load(".env")
-	db, err := gorm.Open(mysql.Open(os.Getenv("DB_URL")), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(os.Getenv("DB_URL")), &gorm.Config{})
 
 	if err != nil {
 		log.Fatalln(err)
