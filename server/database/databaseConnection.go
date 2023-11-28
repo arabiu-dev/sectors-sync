@@ -13,7 +13,6 @@ import (
 )
 
 func Init() *gorm.DB {
-	// Replace 'mysql' with your MySQL driver details
 	godotenv.Load(".env")
 	db, err := gorm.Open(postgres.Open(os.Getenv("DB_URL")), &gorm.Config{})
 
