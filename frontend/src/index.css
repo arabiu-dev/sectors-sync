@@ -1,0 +1,6 @@
+@import './styles/abstracts/variables.css';
+@import './styles/abstracts/animations.css';
+
+@import './styles/base/reset.css';
+@import './styles/base/typography.css';
+@import './styles/base/base.css';
