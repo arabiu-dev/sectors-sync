@@ -1,0 +1,26 @@
+.Checkbox {
+  border-color: var(--color-white);
+
+  appearance: none;
+  background-color: transparent;
+  cursor: pointer;
+
+  width: 1.25rem;
+  height: 1.25rem;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.Checkbox:checked {
+  background-color: var(--color-primary-400);
+
+  background-image: url('../../images/icon-check.svg');
+  background-position: center 65%;
+  background-repeat: no-repeat;
+
+  border: none;
+}
+
+.space {
+  margin-top: 2rem;
+}

@@ -1,0 +1,25 @@
+.IncludeFieldsList {
+  margin-top: 2.625rem;
+  padding: 0;
+
+  display: grid;
+  gap: 1rem;
+}
+
+.IncludeFieldsList__item {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+@media only screen and (min-width: 640px) {
+  .IncludeFieldsList {
+    gap: 1.25rem;
+  }
+
+  .IncludeFieldsList__item {
+    height: 1.4375rem;
+
+    gap: 1.5rem;
+  }
+}
