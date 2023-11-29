@@ -117,9 +117,9 @@ func (h Handler) UpdateUserSector() gin.HandlerFunc {
 			return
 		}
 
-		// Assuming you have a username in the context, you can retrieve the user
+		
 		var user models.User
-		if result := h.DB.Preload("Sector.Options"). // Adjust based on your model structure
+		if result := h.DB.Preload("Sector.Options").
 								Where("username = ?", ctx.GetString("username")).
 								First(&user); result.Error != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong"})
@@ -161,7 +161,7 @@ func (h Handler) GetUserSector() gin.HandlerFunc {
 		var user models.User
 		username := ctx.GetString("username")
 
-		if err := h.DB.Preload("Sector.Options"). // Adjust based on your model structure
+		if err := h.DB.Preload("Sector.Options").
 								Where("username = ?", username).
 								First(&user).Error; err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong"})
