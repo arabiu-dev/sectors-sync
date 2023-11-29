@@ -1,0 +1,27 @@
+:root {
+  --color-neon-green: #a4ffaf;
+  --color-almost-white: #e6e5ea;
+  --color-gray: #817d92;
+  --color-dark-gray: #24232c;
+  --color-very-dark-gray: #18171f;
+  --color-white: #ffffff;
+
+  --color-primary-400: var(--color-neon-green);
+  --color-neutral-50: var(--color-almost-white);
+  --color-neutral-300: var(--color-gray);
+  --color-neutral-500: var(--color-dark-gray);
+  --color-neutral-700: var(--color-very-dark-gray);
+
+  --color-success-400: var(--color-neon-green);
+
+  --font-fira-code: 'Fira Code';
+
+  --font-monospace: var(--font-fira-code), monospace;
+
+  --animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --animation-copy-to-clipboard-duration: 4s;
+  --transition-hover: 0.2s, var(--animation-timing-function);
+
+  --content-on-copy-success: 'Copied';
+  --content-on-copy-failure: 'Copying failed!';
+}

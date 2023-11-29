@@ -1,0 +1,53 @@
+.Title {
+  color: var(--color-neutral-300);
+  font-family: var(--font-monospace);
+
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0em;
+  line-height: 21pt;
+  text-align: center;
+}
+
+.Header {
+  background-color: var(--color-neutral-700);
+
+  margin-top: 2rem;
+  padding-inline: 1rem;
+  padding-block: 0.875rem;
+  height: 3.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Header__title {
+  color: var(--color-neutral-300);
+  font-family: var(--font-monospace);
+
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0em;
+  line-height: 21pt;
+  text-transform: uppercase;
+}
+
+
+@media only screen and (min-width: 640px) {
+  .Title {
+    font-size: 1.5rem;
+    line-height: 32pt;
+  }
+  .Header {
+    padding-inline: 2rem;
+    padding-block: 1.25rem;
+    height: 4.5rem;
+  }
+
+  .Header__title {
+    font-size: 1.25rem;
+    line-height: 24pt;
+  }
+}
+

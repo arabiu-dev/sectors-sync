@@ -1,0 +1,18 @@
+.InputLabel {
+  color: var(--color-neutral-50);
+  font-family: var(--font-monospace);
+
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0em;
+  line-height: 21pt;
+
+  user-select: none;
+}
+
+@media only screen and (min-width: 640px) {
+  .InputLabel {
+    font-size: 1.125rem;
+    line-height: 24pt;
+  }
+}

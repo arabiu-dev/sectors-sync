@@ -1,0 +1,26 @@
+.Container {
+  margin-top: -2.3125rem;
+  max-width: 21.4375rem;
+  width: 100%;
+}
+
+.Container__setup {
+  background-color: var(--color-neutral-500);
+
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+@media only screen and (min-width: 640px) {
+  .Container {
+    margin-top: -3.9375rem;
+    max-width: 33.75rem;
+  }
+
+  .Container__setup {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    padding-inline: 2rem;
+    padding-bottom: 2rem;
+  }
+}
