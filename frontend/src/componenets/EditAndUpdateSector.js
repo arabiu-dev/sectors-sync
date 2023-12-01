@@ -4,7 +4,13 @@ import createNestedStructure from "../lib/createNestedStructure";
 import NestedDropdown from "./NestedDropdown";
 import { useNavigate } from "react-router-dom";
 
-export default function EditAndUpdateSector() {
+const ErrorMessage = () => (
+  <p className="Text__label" style={{ textAlign: "center" }}>
+    All Fields are required.
+  </p>
+);
+
+const EditAndUpdateSector = () => {
   const { token, sector, setSector } = useContext(UserContext);
   const navigate = useNavigate();
   const [options, setOptions] = useState([]);
@@ -14,6 +20,8 @@ export default function EditAndUpdateSector() {
   const [nameWordError, setNameWordError] = useState("Can't be empty");
   const [terms, setTerms] = useState(false);
   const [tempHolder, setTempHolder] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!sector || !sector.options) return;
@@ -51,7 +59,8 @@ export default function EditAndUpdateSector() {
       return false;
     }
 
-    if (!terms) {
+    if (!selectedOptions.length || !terms) {
+      setError("All Fields are required.");
       return false;
     }
     setIsValid(true);
@@ -59,6 +68,7 @@ export default function EditAndUpdateSector() {
   };
 
   const createSector = async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         `https://sectors-synce-arabiu.koyeb.app/api/v1/auth/add_sector`,
@@ -78,7 +88,6 @@ export default function EditAndUpdateSector() {
       );
 
       if (response.status === 201) {
-        // Successfully created
         console.log("Sector created successfully");
         setSector((p) => ({
           ...p,
@@ -93,6 +102,7 @@ export default function EditAndUpdateSector() {
     } catch (error) {
       console.error("Error creating sector:", error);
     }
+    setLoading(false);
   };
 
   return (
@@ -102,6 +112,7 @@ export default function EditAndUpdateSector() {
         in.
       </p>
       <div className="Container__setup">
+        {error && <ErrorMessage />}
         <label htmlFor="name-input" className="InputLabel">
           Name
         </label>
@@ -147,7 +158,7 @@ export default function EditAndUpdateSector() {
           }}
           className="Button Button--primary"
         >
-          Update sectors
+          {loading ? "Loading..." : "Update sectors"}
           <svg width="12" height="12" xmlns="http://www.w3.org/2000/svg">
             <path
               fill="currentColor"
@@ -158,4 +169,6 @@ export default function EditAndUpdateSector() {
       </div>
     </section>
   );
-}
+};
+
+export default EditAndUpdateSector;

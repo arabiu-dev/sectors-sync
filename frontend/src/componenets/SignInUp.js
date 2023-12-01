@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function SignInUp({ setIsBoardModalOpen }) {
+const SignInUp = ({ setIsSignInUpModalOpen }) => {
   const [username, setUsername] = useState("");
   const [passwordError, setPasswordError] = useState("Can't be empty");
   const [nameWordError, setNameWordError] = useState("Can't be empty");
-  const [succcessMsg, setSuccessMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
   const [password, setPassword] = useState("");
   const [isValid, setIsValid] = useState(true);
   const [isSignin, setIsSignin] = useState(true);
@@ -49,30 +49,43 @@ export default function SignInUp({ setIsBoardModalOpen }) {
           }),
         }
       );
+
       if (!response.ok) {
-        if (response.status === 403) {
-          console.error("Unauthorized access.");
-        } else {
-          console.error("Error:", response);
-        }
+        handleError(response);
         return;
       }
 
       const data = await response.json();
 
       if (isSignin) {
-        sessionStorage.setItem("_sectors_sync_token", data.token);
-        sessionStorage.setItem("_sectors_sync_username", data.username);
-        navigate("/home");
+        handleSignIn(data);
+      } else {
+        handleSignUp();
       }
-
-      setIsSignin((p) => !p);
-      setSuccessMsg("Sign up success! You can login in.");
     } catch (error) {
       console.error("Something went wrong");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleError = (response) => {
+    if (response.status === 403) {
+      console.error("Unauthorized access.");
+    } else {
+      console.error("Error:", response);
+    }
+  };
+
+  const handleSignIn = (data) => {
+    sessionStorage.setItem("_sectors_sync_token", data.token);
+    sessionStorage.setItem("_sectors_sync_username", data.username);
+    navigate("/home");
+  };
+
+  const handleSignUp = () => {
+    setIsSignin((p) => !p);
+    setSuccessMsg("Sign up success! You can log in.");
   };
 
   return (
@@ -82,60 +95,40 @@ export default function SignInUp({ setIsBoardModalOpen }) {
         if (e.target !== e.currentTarget) {
           return;
         }
-        setIsBoardModalOpen(false);
+        setIsSignInUpModalOpen(false);
       }}
     >
       <article className="Container">
         <div className="modal Container__setup">
-          {succcessMsg && <p className="Text__label">{succcessMsg}</p>}
+          {successMsg && <p className="Text__label">{successMsg}</p>}
           <h3 className="Header__title">{isSignin ? "Sign in" : "Sign up"}</h3>
-          <label htmlFor="name-input" className="InputLabel">
-            Username
-          </label>
-          <div className="input-container">
-            <input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              id="name-input"
-              type="text"
-              placeholder="e.g. Korra Dune"
-              className={!isValid && !username.trim() ? "red-border" : ""}
-            />
-            {!isValid && !username.trim() && (
-              <span className="cant-be-empty-span text-L">{nameWordError}</span>
-            )}
-          </div>
-          <label htmlFor="password-input" className="InputLabel">
-            Password
-          </label>
-          <div className="input-container">
-            <input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              id="password-input"
-              type="password"
-              placeholder="e.g. Min 6 chars"
-              className={!isValid && !password.trim() ? "red-border" : ""}
-            />
-            {!isValid && !password.trim() && (
-              <span className="cant-be-empty-span text-L">{passwordError}</span>
-            )}
-          </div>
+          {renderInput(
+            "name-input",
+            "Username",
+            username,
+            setUsername,
+            nameWordError,
+            isValid
+          )}
+          {renderInput(
+            "password-input",
+            "Password",
+            password,
+            setPassword,
+            passwordError,
+            isValid,
+            "password"
+          )}
           <button
             disabled={loading}
-            onClick={async () => {
-              const isValid = validate();
-              if (isValid === true) await handleSubmit();
-            }}
+            onClick={() => validate() && handleSubmit()}
             className="Button Button--primary"
           >
-            {isSignin ? "Login" : "Create"}
+            {loading ? "Loading..." : `${isSignin ? "Login" : "Create"}`}
           </button>
           <p
             className="InputLabel Cursor"
-            onClick={() => {
-              setIsSignin((p) => !p);
-            }}
+            onClick={() => setIsSignin((p) => !p)}
           >
             {isSignin ? "Need an account?" : "Sign in"}
           </p>
@@ -143,4 +136,35 @@ export default function SignInUp({ setIsBoardModalOpen }) {
       </article>
     </div>
   );
-}
+};
+
+const renderInput = (
+  id,
+  label,
+  value,
+  onChange,
+  error,
+  isValid,
+  type = "text"
+) => (
+  <>
+    <label htmlFor={id} className="InputLabel">
+      {label}
+    </label>
+    <div className="input-container">
+      <input
+        id={id}
+        type={type}
+        placeholder={`e.g. ${label}`}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={!isValid && !value.trim() ? "red-border" : ""}
+      />
+      {!isValid && !value.trim() && (
+        <span className="cant-be-empty-span text-L">{error}</span>
+      )}
+    </div>
+  </>
+);
+
+export default SignInUp;

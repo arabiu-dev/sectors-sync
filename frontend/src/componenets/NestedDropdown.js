@@ -9,16 +9,20 @@ const NestedDropdown = ({
 }) => {
   const flattenOptions = (options, level = 0) => {
     return options.flatMap((option) => [
-      {
-        key: option.id,
-        label: `${"\u00A0\u00A0".repeat(level)}${option.name}`,
-        value: option.id,
-        isDisabled: !!option.subOptions,
-      },
+      createFlattenedOption(option, level),
       ...(option.subOptions
         ? flattenOptions(option.subOptions, level + 3)
         : []),
     ]);
+  };
+
+  const createFlattenedOption = (option, level) => {
+    return {
+      key: option.id,
+      label: `${"\u00A0\u00A0".repeat(level)}${option.name}`,
+      value: option.id,
+      isDisabled: !!option.subOptions,
+    };
   };
 
   const flattenedOptions = flattenOptions(options);
@@ -28,9 +32,16 @@ const NestedDropdown = ({
     setTempHolder(selected.map((i) => ({ id: i.value, name: i.label.trim() })));
   };
 
+  const customStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      color: "black",
+      fontWeight: state.data.isDisabled ? "bold" : "normal",
+    }),
+  };
+
   return (
     <>
-      {" "}
       <label id="sectors-label" className="InputLabel">
         Sectors
       </label>
@@ -44,13 +55,7 @@ const NestedDropdown = ({
           isOptionDisabled={(option) => option.isDisabled}
           isMulti
           onChange={handleSelectChange}
-          styles={{
-            option: (provided, state) => ({
-              ...provided,
-              color: "black",
-              fontWeight: state.data.isDisabled ? "bold" : "normal",
-            }),
-          }}
+          styles={customStyles}
           getOptionValue={(option) => option.value}
         />
       </div>
